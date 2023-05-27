@@ -1,0 +1,10 @@
+{% extends 'todo_app/base.html' %}
+
+{% block content %}
+
+<form method="post" action="{% url 'todo_app:todo_edit' todo.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}

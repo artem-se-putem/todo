@@ -1,0 +1,21 @@
+{% extends 'todo_app/base.html' %}
+
+{% block content %}
+
+<form method="post" action="{% url 'todo_app:delete_selected' %}">
+    {% csrf_token %}
+    <input type="submit" name="btn-delete" value="Удалить выбранные записи">
+    {% if todo_list %}
+    <ul>
+        {% for todo in todo_list %}
+        <li style="list-style-type: none;">
+            <input type="checkbox" name="selected_todos" value="{{todo.id}}" id="{{todo.id}}">
+            <a href="{% url 'todo_app:todo_edit' todo.id %}">{{ todo.text_todo }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No todo are available.</p>
+    {% endif %}
+</form>
+{% endblock %}
