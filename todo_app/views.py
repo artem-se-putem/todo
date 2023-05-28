@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse_lazy
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 from .models import Todo
 from .forms import TodoForm
@@ -12,7 +14,7 @@ class TodoView(generic.ListView):
 
     def get_queryset(self):
         """
-        Возвращает все объекты модели Todo_list
+        Возвращает все объекты модели Todo
         """
         return Todo.objects.all().order_by('pk')
 
@@ -34,7 +36,6 @@ def todo_create(request):
             form.save()
             return redirect('todo_app:todos')
     form = TodoForm()
-
     return render(request, 'todo_app/todo_create.html', {'form': form})
 
 
@@ -46,5 +47,18 @@ def delete(request, *args, **kwargs):
     Todo.objects.filter(id__in=selected_todos).delete()
     return redirect('todo_app:todos')
 
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('todo_app:todos')
+        else:
+            messages.error(request, 'Неверные учетные данные.')
+    return render(request, 'registration/login.html')
 
-
+def logout_view(request):
+    logout(request)
+    return redirect('todo_app:login')

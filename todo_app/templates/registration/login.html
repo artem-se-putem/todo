@@ -1,0 +1,16 @@
+{% extends 'todo_app/base.html' %}
+
+{% block content %}
+
+<!-- login.html -->
+<form method="post" action="{% url 'todo_app:login' %}">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Имя пользователя" required>
+    <input type="password" name="password" placeholder="Пароль" required>
+    <button type="submit">Войти</button>
+  </form>
+  
+  <!-- logout.html -->
+  <p>Вы успешно вышли из системы.</p>
+  
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-import datetime
+from django.contrib.auth.models import User
 
 class Todo(models.Model):
     text_todo = models.CharField(max_length=200)
